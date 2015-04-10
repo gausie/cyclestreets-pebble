@@ -49,7 +49,7 @@ static void window_load(Window *window) {
   layer_add_child(window_layer, text_layer_get_layer(turn_text_layer));
   strncpy(turn_text, "", 1);
   text_layer_set_text(turn_text_layer, turn_text);
-  
+
   instruction_layer = text_layer_create((GRect) { .origin = {0, 74}, .size = {bounds.size.w,86}});
   text_layer_set_font(instruction_layer, fonts_get_system_font(FONT_KEY_GOTHIC_28_BOLD));
   text_layer_set_text_alignment(instruction_layer, GTextAlignmentCenter);
@@ -99,7 +99,7 @@ static void set_turn_bitmap(char *instr) {
             instruction = RESOURCE_ID_OFF_COURSE;
         }
         APP_LOG(APP_LOG_LEVEL_DEBUG, "Got '%s' turn, instruction %i", instr, instruction);
-        
+
         if (instruction != -1) {
             GBitmap *old = current_turn;
             current_turn = gbitmap_create_with_resource(instruction);
@@ -112,7 +112,7 @@ static void set_turn_bitmap(char *instr) {
 static void set_turn_instruction(DictionaryIterator *iter) {
     Tuple *turn = dict_find(iter, TURN);
     if (turn) {
-        snprintf(turn_text, 32, "%s", 
+        snprintf(turn_text, 32, "%s",
                  (turn == NULL) ? "" : turn->value->cstring);
     } else {
         strcpy(turn_text, "");
@@ -124,7 +124,7 @@ static void inbox_handler(DictionaryIterator *iter, void *context) {
     Tuple *turn = dict_find(iter, TURN);
     if (turn) set_turn_bitmap(turn->value->cstring);
     set_turn_instruction(iter);
-    
+
     Tuple *state = dict_find(iter, STATE);
     Tuple *street = dict_find(iter, STREET);
     Tuple *distance = dict_find(iter, DISTANCE);
@@ -149,7 +149,7 @@ static void inbox_handler(DictionaryIterator *iter, void *context) {
         snprintf(instruction_text, 128, "%s",
                  (street == NULL) ? "" : street->value->cstring);
     } else if (strcmp("LiveRideStart", state->value->cstring) == 0) {
-        snprintf(instruction_text, 128, "Starting\nRide");        
+        snprintf(instruction_text, 128, "Starting\nRide");
     } else if (strcmp("NearingTurn", state->value->cstring) == 0){
         snprintf(instruction_text, 128, "%s\n%s",
                  (street == NULL) ? "" : street->value->cstring,
@@ -157,10 +157,10 @@ static void inbox_handler(DictionaryIterator *iter, void *context) {
     } else {
         snprintf(instruction_text, 128, "%s", state->value->cstring);
     }
-     
+
     APP_LOG(APP_LOG_LEVEL_DEBUG, "Instructing: %s", instruction_text);
     text_layer_set_text(instruction_layer, instruction_text);
-    
+
     Tuple *t = dict_read_first(iter);
     while (t != NULL) {
         APP_LOG(APP_LOG_LEVEL_DEBUG, "Got %u message, %s", (unsigned int)t->key, t->value->cstring);
