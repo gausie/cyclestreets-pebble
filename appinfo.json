@@ -87,7 +87,12 @@
         "type": "png",
         "name": "OFF_COURSE",
         "file": "img/off_course.png"
-      }      
+      }
     ]
-  }
+  },
+  "targetPlatforms": [
+    "aplite",
+    "basalt"
+  ],
+  "sdkVersion": "3"
 }
