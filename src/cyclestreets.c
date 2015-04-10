@@ -200,7 +200,7 @@ static void register_handlers() {
 }
 
 static void init(void) {
-    register_handlers();
+  register_handlers();
   window = window_create();
   window_set_click_config_provider(window, click_config_provider);
   window_set_window_handlers(window, (WindowHandlers) {
